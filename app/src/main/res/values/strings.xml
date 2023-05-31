@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">Q-Rice</string>
+
+    <string name="section_heading">Services</string>
+    <string name="services_name">Services Name</string>
+
+    <string-array name="data_name">
+        <item>Rice Variety Detection</item>
+        <item>Disease Detection in Rice Plants</item>
+        <item>Nutrient Deficiency Detection</item>
+        <item>Seed Quality Detection</item>
+    </string-array>
+
+    <integer-array name="data_icon">
+        <item>@drawable/rice_variety_detection</item>
+        <item>@drawable/disease_detection_in_rice_plants</item>
+        <item>@drawable/nutrient_deficiency_detection</item>
+        <item>@drawable/seed_quality_detection</item>
+    </integer-array>
+
+    <string name="title_home">Home</string>
+    <string name="title_history">History</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="title_profile">Profile</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_main2">MainActivity2</string>
+</resources>

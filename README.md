@@ -14,5 +14,4 @@ Pick image from gallery or take a picture with camera, then upload it.
 ## History
 View services history.
 
-Demo Video
 [Demo Video]([targetURL](https://drive.google.com/file/d/1z6pDJ_qVuR8kImjlATgfeDj9CfXVIGui/view?usp=sharing))

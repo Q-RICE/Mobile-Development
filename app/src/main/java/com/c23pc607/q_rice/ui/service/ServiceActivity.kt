@@ -46,7 +46,7 @@ class ServiceActivity : AppCompatActivity() {
     private lateinit var button: Button
     private lateinit var tvOutput: TextView
     private lateinit var tvDetailName: TextView
-    private lateinit var currentPhotoPath: String
+    private lateinit var selectedImagePath: String
     private val viewModel by viewModels<ServiceViewModel>()
     private val GALLERY_REQUEST_CODE = 123
 
@@ -105,7 +105,7 @@ class ServiceActivity : AppCompatActivity() {
                 REQUEST_CODE_PERMISSIONS
             )
         }
-//        binding.cameraXButton.setOnClickListener { startCameraX() }
+
         binding.cameraButton.setOnClickListener { startTakePhoto() }
         binding.galleryButton.setOnClickListener { startGallery() }
         val token = SessionManager.getToken(this)
@@ -123,7 +123,7 @@ class ServiceActivity : AppCompatActivity() {
             val stream = ByteArrayOutputStream()
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
             val byteArray = stream.toByteArray()
-            val myFile = File(currentPhotoPath)
+            val myFile = File(selectedImagePath)
 
             val model: String = when (tvDetailName.text.toString()) {
                 "Rice Variety Detection" -> "riceVariety"
@@ -131,6 +131,10 @@ class ServiceActivity : AppCompatActivity() {
                 "Nutrient Deficiency Detection" -> "nutrientDeficiency"
                 else -> "seedQuality"
             }
+
+            // Check if the file size is not 0
+            val fileSize = myFile.length()
+            Log.d("ServiceActivity", " $myFile.path File size: $fileSize bytes")
 
             Log.d("ServiceActivity", "Prediction String: $myFile.path")
 
@@ -150,11 +154,6 @@ class ServiceActivity : AppCompatActivity() {
         }
     }
 
-//    private fun startCameraX() {
-//        val intent = Intent(this, CameraActivity::class.java)
-//        launcherIntentCameraX.launch(intent)
-//    }
-
     private fun startTakePhoto() {
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         intent.resolveActivity(packageManager)
@@ -165,7 +164,7 @@ class ServiceActivity : AppCompatActivity() {
                 "com.c23pc607.q_rice",
                 it
             )
-            currentPhotoPath = it.absolutePath
+            selectedImagePath = it.absolutePath
             intent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
             launcherIntentCamera.launch(intent)
         }
@@ -178,7 +177,7 @@ class ServiceActivity : AppCompatActivity() {
         val chooser = Intent.createChooser(intent, "Choose a Picture")
 
         createCustomTempFile(application).also {
-            currentPhotoPath = it.absolutePath
+            selectedImagePath = it.absolutePath
         }
         launcherIntentGallery.launch(chooser)
     }
@@ -187,35 +186,13 @@ class ServiceActivity : AppCompatActivity() {
         Toast.makeText(this, "Fitur ini belum tersedia", Toast.LENGTH_SHORT).show()
     }
 
-    private val launcherIntentCameraX = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
-    ) {
-        if (it.resultCode == CAMERA_X_RESULT) {
-            val myFile = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                it.data?.getSerializableExtra("picture", File::class.java)
-            } else {
-                @Suppress("DEPRECATION")
-                it.data?.getSerializableExtra("picture")
-            } as? File
-
-            val isBackCamera = it.data?.getBooleanExtra("isBackCamera", true) as Boolean
-
-            myFile?.let { file ->
-                rotateFile(file, isBackCamera)
-                binding.previewImageView.setImageBitmap(BitmapFactory.decodeFile(file.path))
-            }
-        }
-    }
-
     private val launcherIntentCamera = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) {
         if (it.resultCode == RESULT_OK) {
-            val myFile = File(currentPhotoPath)
+            val myFile = File(selectedImagePath)
 
             myFile.let { file ->
-//              Silakan gunakan kode ini jika mengalami perubahan rotasi
-//              rotateFile(file)
                 binding.previewImageView.setImageBitmap(BitmapFactory.decodeFile(file.path))
             }
         }
@@ -228,7 +205,15 @@ class ServiceActivity : AppCompatActivity() {
             val selectedImg = result.data?.data as Uri
             selectedImg.let { uri ->
                 val myFile = uriToFile(uri, this@ServiceActivity)
-                binding.previewImageView.setImageURI(uri)
+                val fileSize = myFile?.length() ?: 0L // Get the file size or assign 0 if myFile is null
+                if (fileSize > 0) {
+                    binding.previewImageView.setImageURI(uri)
+                    Log.d("ServiceActivity", "Selected image file size: $fileSize bytes")
+                    selectedImagePath = myFile?.path ?: "" // Update the selectedImagePath with the correct file path
+                } else {
+                    Log.d("ServiceActivity", "Selected image file size is 0")
+                    // Handle the case when the file size is 0 (optional)
+                }
             }
         }
     }

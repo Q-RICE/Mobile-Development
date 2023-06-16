@@ -1,8 +1,8 @@
 # Mobile-Development
 
 ## Sign In
-Please sign in with the following credentials.\n
-username: qrice\n
+Please sign in with the following credentials.  
+username: qrice  
 password: 123456
 
 ## Home

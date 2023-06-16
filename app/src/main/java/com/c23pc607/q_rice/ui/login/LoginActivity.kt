@@ -2,18 +2,15 @@ package com.c23pc607.q_rice.ui.login
 
 import android.content.Intent
 import android.content.Intent.FLAG_ACTIVITY_NO_HISTORY
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.util.Log
 import android.widget.Toast
 import androidx.activity.viewModels
-import com.c23pc607.q_rice.R
+import androidx.appcompat.app.AppCompatActivity
 import com.c23pc607.q_rice.data.remote.response.BaseResponse
 import com.c23pc607.q_rice.data.remote.response.LoginResponse
 import com.c23pc607.q_rice.databinding.ActivityLoginBinding
 import com.c23pc607.q_rice.ui.home.MainActivity
-import com.c23pc607.q_rice.ui.register.RegisterActivity
 import com.c23pc607.q_rice.ui.utils.SessionManager
 
 class LoginActivity : AppCompatActivity() {
@@ -56,10 +53,6 @@ class LoginActivity : AppCompatActivity() {
 
         }
 
-        /*binding.btnRegister.setOnClickListener {
-            doSignup()
-        }*/
-
     }
 
     private fun navigateToHome() {
@@ -89,7 +82,6 @@ class LoginActivity : AppCompatActivity() {
     }
 
     fun processLogin(data: LoginResponse?) {
-        showToast("Success:" + data?.token)
         if (!data?.token.isNullOrEmpty()) {
             data?.token?.let { SessionManager.saveAuthToken(this, it) }
             navigateToHome()

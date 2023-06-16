@@ -1,23 +1,17 @@
 package com.c23pc607.q_rice.ui.service
 
 import android.util.Log
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.c23pc607.q_rice.data.remote.response.ServiceResponse
-import com.c23pc607.q_rice.data.retrofit.ApiConfig
 import com.c23pc607.q_rice.data.retrofit.ApiService
 import com.c23pc607.q_rice.ui.utils.Event
-import kotlinx.coroutines.launch
-import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
-import okhttp3.RequestBody.Companion.asRequestBody
-import retrofit2.Callback
-import retrofit2.Call
-import retrofit2.Response
-import java.io.File
-import okhttp3.RequestBody.Companion.create
 import okhttp3.RequestBody.Companion.toRequestBody
+import java.io.File
 
 class ServiceViewModel : ViewModel() {
 
@@ -65,7 +59,9 @@ class ServiceViewModel : ViewModel() {
             val response = ApiService.getApi()?.postPredict("Bearer $token", imagePart, modelPart)
             if (response?.isSuccessful == true) {
                 _service.value = response.body()
+                _result.value = response.body()?.result
                 _snackbarText.value = Event(response.body()?.success.toString())
+                Log.d(TAG, "Success: ${response.body()?.result}")
             } else {
                 Log.e(TAG, "onFailure: ${response?.message()}")
                 // Handle error response

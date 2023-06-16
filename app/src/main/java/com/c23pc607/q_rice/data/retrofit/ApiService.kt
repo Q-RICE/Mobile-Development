@@ -1,8 +1,7 @@
 package com.c23pc607.q_rice.data.retrofit
 
 import com.c23pc607.q_rice.data.remote.request.LoginRequest
-import com.c23pc607.q_rice.data.remote.response.LoginResponse
-import com.c23pc607.q_rice.data.remote.response.ServiceResponse
+import com.c23pc607.q_rice.data.remote.response.*
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Response
@@ -20,6 +19,21 @@ interface ApiService {
         @Part image: MultipartBody.Part,
         @Part("model") model: RequestBody
     ): Response<ServiceResponse>
+
+    @GET("api/rice-varieties/{id}")
+    suspend fun getVarieties(
+            @Path("id") id: String
+    ): Response<VarietiesResponse>
+
+    @GET("api/rice-diseases/{id}")
+    suspend fun getDiseases(
+            @Path("id") id: String
+    ): Response<DiseasesResponse>
+
+    @GET("api/nutrient-deficiencies/{id}")
+    suspend fun getDeficiencies(
+            @Path("id") id: String
+    ): Response<DeficienciesResponse>
 
     companion object {
         fun getApi(): ApiService? {

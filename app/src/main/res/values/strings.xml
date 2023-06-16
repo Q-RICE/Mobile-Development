@@ -6,6 +6,13 @@
     <string name="camera">Camera</string>
     <string name="gallery">Gallery</string>
     <string name="upload">Upload</string>
+    <string name="tab_text_1">rice Variety</string>
+    <string name="tab_text_2">rice Disease</string>
+    <string name="tab_text_3">nutrient Deficiency</string>
+    <string name="tab_text_4">seed Quality</string>
+    <string name="content_tab_home">Welcome Home</string>
+    <string name="content_tab_profile">Change your Profile here</string>
+    <string name="content_tab_text">This is Tab %1$d</string>
 
     <string name="section_heading">Services</string>
     <string name="services_name">Services Name</string>

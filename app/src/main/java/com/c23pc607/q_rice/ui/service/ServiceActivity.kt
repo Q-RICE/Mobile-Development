@@ -1,9 +1,6 @@
 package com.c23pc607.q_rice.ui.service
 
 import android.Manifest
-import android.app.Activity
-import android.app.AlertDialog
-import android.content.ContentValues
 import android.content.Intent
 import android.content.Intent.ACTION_GET_CONTENT
 import android.content.pm.PackageManager
@@ -13,46 +10,40 @@ import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
 import android.provider.MediaStore
 import android.util.Log
-import android.widget.Button
-import android.widget.ImageView
+import android.view.View
 import android.widget.TextView
 import android.widget.Toast
-import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import com.c23pc607.q_rice.R
 import com.c23pc607.q_rice.data.Service
 import com.c23pc607.q_rice.databinding.ActivityServiceBinding
-import androidx.core.content.FileProvider
-import com.c23pc607.q_rice.data.remote.response.ServiceResponse
-import com.c23pc607.q_rice.ml.BirdsModel
 import com.c23pc607.q_rice.ui.detail.DetailActivity
 import com.c23pc607.q_rice.ui.utils.SessionManager
+import com.c23pc607.q_rice.ui.utils.createCustomTempFile
+import com.c23pc607.q_rice.ui.utils.uriToFile
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import org.tensorflow.lite.support.image.TensorImage
 import java.io.*
 
 class ServiceActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityServiceBinding
-    private lateinit var imageView: ImageView
-    private lateinit var button: Button
-    private lateinit var tvOutput: TextView
     private lateinit var tvDetailName: TextView
-    private lateinit var selectedImagePath: String
+    private var selectedImagePath: String? = null
     private val viewModel by viewModels<ServiceViewModel>()
-    private val GALLERY_REQUEST_CODE = 123
+    private var isLoading = false
 
     companion object {
         const val KEY_SERVICE = "key_service"
-        const val CAMERA_X_RESULT = 200
 
         private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
         private const val REQUEST_CODE_PERMISSIONS = 10
@@ -110,8 +101,6 @@ class ServiceActivity : AppCompatActivity() {
         binding.galleryButton.setOnClickListener { startGallery() }
         val token = SessionManager.getToken(this)
         binding.uploadButton.setOnClickListener {
-            uploadImage()
-
             /*
             Intent untuk mengirimkan data ke activity lain
             */
@@ -140,8 +129,15 @@ class ServiceActivity : AppCompatActivity() {
 
             CoroutineScope(Dispatchers.Main).launch {
                 if (!token.isNullOrBlank()) {
+                    showLoading()
                     Log.d("ServiceActivity", "token: $token")
                     viewModel.postPredict(token, myFile, model)
+                    val handler = Handler()
+                    handler.postDelayed({
+                        if (!isFinishing) {
+                            hideLoading()
+                        }
+                    }, 30000)
                 }
             }
 
@@ -149,8 +145,17 @@ class ServiceActivity : AppCompatActivity() {
                 moveWithDataIntent.putExtra(DetailActivity.EXTRA_NAME, it?.predictionResult)
             }
 
+            viewModel.result.observe(this) {
+                showLoading()
+            }
+
             moveWithDataIntent.putExtra(DetailActivity.EXTRA_PHOTO, byteArray)
-            startActivity(moveWithDataIntent)
+            val handler = Handler()
+            handler.postDelayed({
+                if (!isFinishing) {
+                    startActivity(moveWithDataIntent)
+                }
+            }, 30000)
         }
     }
 
@@ -180,10 +185,6 @@ class ServiceActivity : AppCompatActivity() {
             selectedImagePath = it.absolutePath
         }
         launcherIntentGallery.launch(chooser)
-    }
-
-    private fun uploadImage() {
-        Toast.makeText(this, "Fitur ini belum tersedia", Toast.LENGTH_SHORT).show()
     }
 
     private val launcherIntentCamera = registerForActivityResult(
@@ -216,5 +217,15 @@ class ServiceActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    private fun showLoading() {
+        isLoading = true
+        binding.loading.visibility = View.VISIBLE
+    }
+
+    private fun hideLoading() {
+        isLoading = false
+        binding.loading.visibility = View.GONE
     }
 }

@@ -1,5 +1,11 @@
 <resources>
     <string name="app_name">Q-Rice</string>
+    <string name="username_hint">Username</string>
+    <string name="password_hint">Password</string>
+    <string name="sign_in_text_btn">Sign in</string>
+    <string name="camera">Camera</string>
+    <string name="gallery">Gallery</string>
+    <string name="upload">Upload</string>
 
     <string name="section_heading">Services</string>
     <string name="services_name">Services Name</string>

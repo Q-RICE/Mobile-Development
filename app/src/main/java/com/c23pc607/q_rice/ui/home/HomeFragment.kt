@@ -13,8 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.c23pc607.q_rice.R
-import com.c23pc607.q_rice.Service
-import com.c23pc607.q_rice.ServiceAdapter
+import com.c23pc607.q_rice.data.Service
 
 class HomeFragment : Fragment() {
 
@@ -30,10 +29,6 @@ class HomeFragment : Fragment() {
         homeViewModel =
             ViewModelProvider(this).get(HomeViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_home, container, false)
-        val textView: TextView = root.findViewById(R.id.text_home)
-        homeViewModel.text.observe(viewLifecycleOwner, {
-            textView.text = it
-        })
 
         val toolbar: Toolbar = root.findViewById(R.id.toolbar)
         (requireActivity() as AppCompatActivity).setSupportActionBar(toolbar)

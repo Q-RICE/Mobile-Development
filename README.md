@@ -14,4 +14,8 @@ Pick image from gallery or take a picture with camera, then upload it.
 ## History
 View services history.
 
+## Demo
 The demo video can be accessed [here](https://drive.google.com/file/d/1z6pDJ_qVuR8kImjlATgfeDj9CfXVIGui/view?usp=sharing)
+
+## Download
+Our app can be downloaded [here](https://drive.google.com/file/d/1I4oVInygatVPKDosN9rrjVHfefPFSYMZ/view?usp=sharing)

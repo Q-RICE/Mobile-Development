@@ -9,11 +9,12 @@ password: 123456
 Pick 1 out of 4 service
 
 ## Upload
-Pick image from gallery or take a picture with camera, then upload it.
-![WhatsApp Image 2023-06-16 at 7 19 03 PM](https://github.com/Q-RICE/Mobile-Development/assets/68507495/b545b460-1052-4278-829b-87239e0bded5)
-![WhatsApp Image 2023-06-16 at 7 19 45 PM](https://github.com/Q-RICE/Mobile-Development/assets/68507495/58890788-33f3-46f0-abbc-ec5c3f72b3f9)
-![WhatsApp Image 2023-06-16 at 7 20 20 PM](https://github.com/Q-RICE/Mobile-Development/assets/68507495/57cab37f-b377-4734-844d-6ca819743311)
-![WhatsApp Image 2023-06-16 at 7 21 00 PM](https://github.com/Q-RICE/Mobile-Development/assets/68507495/d08f29c6-0bd2-4a4a-906c-c9c73ef43cbe)
+Pick image from gallery or take a picture with camera, then upload it.  
+You can pick one of this images
+![rice variety - basmati](https://github.com/Q-RICE/Mobile-Development/assets/68507495/b545b460-1052-4278-829b-87239e0bded5)
+![rice leaf disease - Tungro](https://github.com/Q-RICE/Mobile-Development/assets/68507495/58890788-33f3-46f0-abbc-ec5c3f72b3f9)
+![nutrient deficiency - nutrient deficiency of pottasium](https://github.com/Q-RICE/Mobile-Development/assets/68507495/57cab37f-b377-4734-844d-6ca819743311)
+![seed quality detection - Healthy](https://github.com/Q-RICE/Mobile-Development/assets/68507495/d08f29c6-0bd2-4a4a-906c-c9c73ef43cbe)
 
 ## History
 View services history.
